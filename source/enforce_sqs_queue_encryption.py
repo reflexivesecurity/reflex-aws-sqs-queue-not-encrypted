@@ -18,7 +18,10 @@ class EncryptSQSQueueRule(AWSRule):
     def extract_event_data(self, event):
         """ Extract required data from the CloudWatch event """
         self.raw_event = event
-        self.sqs_queue_url = event["detail"]["requestParameters"]["queueUrl"]
+        if event["detail"]["eventName"] == "SetQueueAttributes":
+            self.sqs_queue_url = event["detail"]["requestParameters"]["queueUrl"]
+        else:  # event["detail"]["eventName"] == "CreateQueue"
+            self.sqs_queue_url = event["detail"]["responseElements"]["queueUrl"]
 
     def resource_compliant(self):
         """ Determines if the SQS queue is encrypted, and if so returns True and False otherwise """
