@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "enforce_sqs_queue_encryption" {
-  source           = "git@github.com:cloudmitigator/reflex.git//modules/cwe_lambda?ref=v0.0.1"
+  source           = "git@github.com:cloudmitigator/reflex.git//modules/cwe_lambda?ref=v0.2.0"
   rule_name        = "EnforceSQSQueueEncryption"
   rule_description = "Rule to enforce SQS queue encryption"
 
@@ -31,7 +31,7 @@ PATTERN
   source_code_dir          = "${path.module}/source"
   handler                  = "enforce_sqs_queue_encryption.lambda_handler"
   lambda_runtime           = "python3.7"
-  environment_variable_map = { SNS_TOPIC = module.enforce_sqs_queue_encryption.sns_topic_arn }
+  environment_variable_map = { SNS_TOPIC = var.sns_topic_arn }
   custom_lambda_policy     = <<EOF
 {
   "Version": "2012-10-17",
@@ -54,6 +54,5 @@ EOF
 
   target_id = "EnforceSQSQueueEncryption"
 
-  topic_name = "EnforceSQSQueueEncryption"
-  email      = var.email
+  sns_topic_arn = var.sns_topic_arn
 }
