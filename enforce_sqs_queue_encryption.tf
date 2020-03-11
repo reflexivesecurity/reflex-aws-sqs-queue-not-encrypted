@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "enforce_sqs_queue_encryption" {
-  source           = "git@github.com:cloudmitigator/reflex.git//modules/cwe_lambda?ref=v0.3.0"
+  source           = "git::https://github.com/cloudmitigator/reflex-engine.git//modules/cwe_lambda?ref=v0.3.0"
   rule_name        = "EnforceSQSQueueEncryption"
   rule_description = "Rule to enforce SQS queue encryption"
 
