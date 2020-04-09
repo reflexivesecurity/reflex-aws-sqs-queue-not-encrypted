@@ -45,7 +45,11 @@ class EncryptSQSQueueRule(AWSRule):
 
     def get_remediation_message(self):
         """ Returns a message about the remediation action that occurred """
-        return f"The SQS queue with URL: {self.sqs_queue_url} was unencrypted. Encrypted with default KMS key."
+        message = f"The SQS queue with URL: {self.sqs_queue_url} was unencrypted. "
+        if self.should_remediate():
+            message += "Encrypted with default KMS key."
+
+        return message
 
 
 def lambda_handler(event, _):
