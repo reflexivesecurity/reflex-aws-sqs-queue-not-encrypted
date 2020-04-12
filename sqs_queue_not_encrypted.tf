@@ -4,7 +4,7 @@ provider "aws" {
 
 module "sqs_queue_not_encrypted" {
   source           = "git::https://github.com/cloudmitigator/reflex-engine.git//modules/cwe_lambda?ref=v0.5.7"
-  rule_name        = "EnforceSQSQueueEncryption"
+  rule_name        = "SqsQueueNotEncrypted"
   rule_description = "Rule to enforce SQS queue encryption"
 
   event_pattern = <<PATTERN
@@ -27,7 +27,7 @@ module "sqs_queue_not_encrypted" {
 }
 PATTERN
 
-  function_name            = "EnforceSQSQueueEncryption"
+  function_name            = "SqsQueueNotEncrypted"
   source_code_dir          = "${path.module}/source"
   handler                  = "sqs_queue_not_encrypted.lambda_handler"
   lambda_runtime           = "python3.7"
@@ -49,10 +49,10 @@ PATTERN
 EOF
 
 
-  queue_name    = "EnforceSQSQueueEncryption"
+  queue_name    = "SqsQueueNotEncrypted"
   delay_seconds = 0
 
-  target_id = "EnforceSQSQueueEncryption"
+  target_id = "SqsQueueNotEncrypted"
 
   sns_topic_arn = var.sns_topic_arn
   sqs_kms_key_id = var.reflex_kms_key_id
