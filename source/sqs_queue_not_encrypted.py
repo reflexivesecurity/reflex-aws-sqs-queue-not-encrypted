@@ -7,7 +7,7 @@ import boto3
 from reflex_core import AWSRule
 
 
-class EncryptSQSQueueRule(AWSRule):
+class SqsQueueNotEncrypted(AWSRule):
     """ AWS rule for ensuring SQS queues are encrypted """
 
     client = boto3.client("sqs")
@@ -55,5 +55,5 @@ class EncryptSQSQueueRule(AWSRule):
 def lambda_handler(event, _):
     """ Handles the incoming event """
     print(event)
-    rule = EncryptSQSQueueRule(json.loads(event["Records"][0]["body"]))
+    rule = SqsQueueNotEncrypted(json.loads(event["Records"][0]["body"]))
     rule.run_compliance_rule()
