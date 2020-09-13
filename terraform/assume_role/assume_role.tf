@@ -3,7 +3,7 @@ module "assume_role" {
   source = "git::https://github.com/reflexivesecurity/reflex-engine.git//modules/sqs_lambda/modules/iam_assume_role?ref=v2.1.0"
 
   function_name             = "SqsQueueNotEncrypted"
-  custom_lambda_policy = <<EOF
+  custom_lambda_policy      = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -17,6 +17,7 @@ module "assume_role" {
     }
   ]
 }
-EOF  lambda_execution_role_arn = "arn:aws:iam::${var.parent_account}:role/ReflexSqsQueueNotEncryptedLambdaExecution"
+EOF  
+  lambda_execution_role_arn = "arn:aws:iam::${var.parent_account}:role/ReflexSqsQueueNotEncryptedLambdaExecution"
 
 }
