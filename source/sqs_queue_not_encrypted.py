@@ -4,7 +4,7 @@ import json
 
 import boto3
 
-from reflex_core import AWSRule
+from reflex_core import AWSRule, subscription_confirmation
 
 
 class SqsQueueNotEncrypted(AWSRule):
@@ -55,5 +55,9 @@ class SqsQueueNotEncrypted(AWSRule):
 def lambda_handler(event, _):
     """ Handles the incoming event """
     print(event)
-    rule = SqsQueueNotEncrypted(json.loads(event["Records"][0]["body"]))
+    event_payload = json.loads(event["Records"][0]["body"])
+    if subscription_confirmation.is_subscription_confirmation(event_payload):
+        subscription_confirmation.confirm_subscription(event_payload)
+        return
+    rule = SqsQueueNotEncrypted(event_payload)
     rule.run_compliance_rule()
