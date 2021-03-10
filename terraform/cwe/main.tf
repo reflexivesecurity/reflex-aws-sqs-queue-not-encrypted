@@ -1,5 +1,5 @@
 module "cwe" {
-  source      = "git::https://github.com/reflexivesecurity/reflex-engine.git//modules/cwe?ref=v2.1.3"
+  source      = "git::https://github.com/reflexivesecurity/reflex-engine.git//modules/cwe?ref=refactor"
   name        = "SqsQueueNotEncrypted"
   description = "Rule to enforce SQS queue encryption"
 
